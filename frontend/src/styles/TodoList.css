@@ -1,0 +1,10 @@
+/* frontend/src/styles/TodoList.css */
+.todo-list {
+  padding: 24px;
+}
+
+@media (max-width: 768px) {
+  .todo-list {
+    padding: 16px;
+  }
+}

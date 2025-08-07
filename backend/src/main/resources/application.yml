@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: todo-app
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/todo_app_db?useSSL=false&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: LALo0677LALo0677
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update  # change to "create" if you want to regenerate the schema
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+jwt:
+  # Secure 256-bit base64-encoded secret key (use with Keys.hmacShaKeyFor)
+  secret: owDSkK34xQWJNA7NHWv7qxwCyRuwsRzLuIA+WJ6M0zs=
+  expiration: 86400  # in seconds (1 day)
+
+logging:
+  level:
+    com.todo: DEBUG
+    org.springframework.security: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+          - metrics
