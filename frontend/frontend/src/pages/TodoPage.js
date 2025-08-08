@@ -7,7 +7,6 @@ import TodoFilters from '../components/todo/TodoFilters';
 import TodoStats from '../components/todo/TodoStats';
 import '../styles/TodoPage.css';
 
-console.log('toggleTodo is:', typeof toggleTodo);
 const TodoPage = () => {
   const {
     todos,
@@ -58,7 +57,7 @@ const TodoPage = () => {
             onClick={() => setShowForm(!showForm)}
             className="btn btn-primary add-todo-btn"
           >
-            {showForm ? 'Cancel' : 'Add Todo'}
+            {showForm ? 'Cancel' : '+ Add Todo'}
           </button>
         </div>
 

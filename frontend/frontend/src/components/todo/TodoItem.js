@@ -16,8 +16,6 @@ const TodoItem = ({ todo, onToggle, onDelete, onUpdate }) => {
     }
   };
 
-  
-
   const handleUpdate = async (formData) => {
     const result = await onUpdate(todo.id, formData);
     if (result?.success) {
@@ -90,15 +88,14 @@ const TodoItem = ({ todo, onToggle, onDelete, onUpdate }) => {
           className="btn btn-edit"
           title="Edit todo"
         >
-          
+          ✏️
         </button>
         <button
           onClick={handleDelete}
           className="btn btn-delete"
           title="Delete todo"
         >
-      
-
+          🗑️
         </button>
       </div>
     </div>

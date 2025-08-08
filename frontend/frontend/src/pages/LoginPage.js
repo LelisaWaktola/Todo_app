@@ -1,5 +1,5 @@
 // frontend/src/pages/LoginPage.js
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
@@ -12,46 +12,41 @@ const LoginPage = () => {
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-
-  const { user, login } = useAuth(); // ✅ make sure `user` is included
+  
+  const { login } = useAuth();
   const navigate = useNavigate();
-
-  // ✅ Redirect if already logged in
-  useEffect(() => {
-    if (user) {
-      navigate('/todos');
-    }
-  }, [user, navigate]);
 
   const validateForm = () => {
     const newErrors = {};
-
+    
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email is invalid';
     }
-
+    
     if (!formData.password) {
       newErrors.password = 'Password is required';
     }
-
+    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!validateForm()) return;
+    
+    if (!validateForm()) {
+      return;
+    }
 
     setLoading(true);
-    const result = await login(formData); // login() should update context
+    const result = await login(formData);
     setLoading(false);
 
     if (result.success) {
       toast.success('Login successful!');
-      navigate('/todos'); // optional, useEffect also handles it
+      navigate('/todos');
     } else {
       toast.error(result.error);
     }
@@ -60,7 +55,7 @@ const LoginPage = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-
+    
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -73,7 +68,7 @@ const LoginPage = () => {
           <h2>Welcome Back</h2>
           <p>Sign in to your account</p>
         </div>
-
+        
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
             <label htmlFor="email">Email</label>
@@ -107,7 +102,7 @@ const LoginPage = () => {
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
-
+        
         <div className="auth-footer">
           <p>
             Don't have an account? <Link to="/register">Sign up</Link>

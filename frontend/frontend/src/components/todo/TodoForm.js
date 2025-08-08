@@ -1,8 +1,6 @@
 // frontend/src/components/todo/TodoForm.js
 import React, { useState, useEffect } from 'react';
 import '../../styles/TodoForm.css';
-import { toast } from 'react-toastify';
-import { todoService } from '../../services/todoService';
 
 const TodoForm = ({ todo, onSubmit, onCancel, isEditing = false }) => {
   const [formData, setFormData] = useState({
@@ -39,26 +37,21 @@ const TodoForm = ({ todo, onSubmit, onCancel, isEditing = false }) => {
     return Object.keys(newErrors).length === 0;
   };
 
- 
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  if (!validateForm()) return;
-
-  try {
-    const result = await todoService.createTodo(formData); // 👈 send to backend
-    if (result.status === 201 || result.status === 200) {
-      toast.success('Todo created successfully!');
-      setFormData({ title: '', description: '', completed: false }); // clear form
-      // onTodoCreated && onTodoCreated(result.data); // optional callback if passed
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
     }
-  } catch (error) {
-    toast.error('Failed to create todo.');
-    console.error('Create todo error:', error);
-  }
-};
 
+    const result = await onSubmit(formData);
+    if (result?.success) {
+      if (!isEditing) {
+        setFormData({ title: '', description: '', completed: false });
+      }
+      setErrors({});
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
